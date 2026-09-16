@@ -171,37 +171,24 @@ def executar():
 
     melhor_global = max(populacao, key=fitness)
     historico = []
+    geracao_final = 0
 
     for geracao in range(1, GERACOES + 1):
         populacao = gerar_nova_populacao(populacao)
 
         melhor = max(populacao, key=fitness)
         melhor_conflitos = conflitos(melhor)
+
         historico.append(melhor_conflitos)
+        geracao_final = geracao
 
         if fitness(melhor) > fitness(melhor_global):
             melhor_global = deepcopy(melhor)
 
-        if geracao == 1 or geracao % 25 == 0 or melhor_conflitos == 0:
-            print(
-                f"Geração {geracao:>3} | "
-                f"Conflitos: {melhor_conflitos:>2} | "
-                f"Fitness: {fitness(melhor):.4f}"
-            )
-
-        # Critério de parada: encontrou uma solução sem conflitos.
         if melhor_conflitos == 0:
-            print(f"\nSolução sem conflitos encontrada na geração {geracao}!")
             break
 
-    imprimir_grade(melhor_global)
-
-    print("\n" + "=" * 75)
-    print(f"Conflitos finais: {conflitos(melhor_global)}")
-    print(f"Fitness final:    {fitness(melhor_global):.4f}")
-    print("=" * 75)
-
-    return melhor_global, historico
+    return melhor_global, historico, geracao_final
 
 
 if __name__ == "__main__":
