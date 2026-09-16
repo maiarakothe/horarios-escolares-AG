@@ -16,27 +16,48 @@ class Aula:
 
 # Cada posição do cromossomo representa uma aula.
 # O gene guarda o dia e o horário em que aquela aula foi colocada.
+# (30 aulas para 30 slots disponíveis)
 AULAS = [
     Aula("1A", "Matemática", "Ana", "Sala 101"),
     Aula("1A", "Português", "Bruno", "Sala 102"),
     Aula("1A", "História", "Carla", "Sala 103"),
     Aula("1A", "Biologia", "Diego", "Lab 1"),
+    Aula("1A", "Geografia", "Helena", "Sala 101"),
+    Aula("1A", "Inglês", "Elisa", "Sala 102"),
 
     Aula("1B", "Matemática", "Ana", "Sala 102"),
     Aula("1B", "Português", "Elisa", "Sala 101"),
     Aula("1B", "História", "Carla", "Sala 104"),
     Aula("1B", "Biologia", "Fabio", "Lab 1"),
+    Aula("1B", "Geografia", "Helena", "Sala 102"),
+    Aula("1B", "Inglês", "Bruno", "Sala 103"),
 
     Aula("2A", "Matemática", "Gustavo", "Sala 103"),
     Aula("2A", "Português", "Bruno", "Sala 104"),
     Aula("2A", "História", "Helena", "Sala 101"),
     Aula("2A", "Biologia", "Diego", "Lab 1"),
+    Aula("2A", "Geografia", "Carla", "Sala 103"),
+    Aula("2A", "Inglês", "Ana", "Sala 104"),
+
+    Aula("2B", "Matemática", "Gustavo", "Sala 104"),
+    Aula("2B", "Português", "Elisa", "Sala 103"),
+    Aula("2B", "História", "Ana", "Sala 102"),
+    Aula("2B", "Biologia", "Fabio", "Lab 2"),
+    Aula("2B", "Geografia", "Bruno", "Sala 101"),
+    Aula("2B", "Inglês", "Carla", "Sala 102"),
+
+    Aula("3A", "Matemática", "Ana", "Sala 101"),
+    Aula("3A", "Português", "Bruno", "Sala 102"),
+    Aula("3A", "História", "Diego", "Sala 103"),
+    Aula("3A", "Biologia", "Helena", "Lab 1"),
+    Aula("3A", "Geografia", "Fabio", "Sala 104"),
+    Aula("3A", "Inglês", "Gustavo", "Sala 101"),
 ]
 
 SLOTS = [(dia, horario) for dia in range(len(DIAS))
          for horario in range(len(HORARIOS))]
 
-POPULACAO = 100
+POPULACAO = 50
 GERACOES = 500
 TAXA_CROSSOVER = 0.85
 TAXA_MUTACAO = 0.08
