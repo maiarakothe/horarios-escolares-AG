@@ -54,8 +54,7 @@ AULAS = [
     Aula("3A", "Inglês", "Gustavo", "Sala 101"),
 ]
 
-SLOTS = [(dia, horario) for dia in range(len(DIAS))
-         for horario in range(len(HORARIOS))]
+SLOTS = [(dia, horario) for dia in range(len(DIAS)) for horario in range(len(HORARIOS))]
 
 POPULACAO = 50
 GERACOES = 500
@@ -164,7 +163,7 @@ def imprimir_grade(individuo):
 
     ordenado = sorted(
         range(len(AULAS)),
-        key=lambda i: (individuo[i][0], individuo[i][1], AULAS[i].turma)
+        key=lambda i: (individuo[i][0], individuo[i][1], AULAS[i].turma),
     )
 
     atual = None

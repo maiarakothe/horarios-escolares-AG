@@ -9,10 +9,7 @@ st.set_page_config(page_title="Gerador de Horários", page_icon="📅", layout="
 st.title("📅 Gerador de Horários")
 st.write("Sistema de geração automática de horários utilizando " "Algoritmo Genético.")
 
-
-# ---------------------------------------------------
 # BOTÃO
-# ---------------------------------------------------
 
 if st.button("🚀 Gerar Grade", use_container_width=True):
 
@@ -24,10 +21,7 @@ if st.button("🚀 Gerar Grade", use_container_width=True):
     st.session_state["historico"] = historico
     st.session_state["geracao"] = geracao
 
-
-# ---------------------------------------------------
 # MOSTRAR RESULTADO
-# ---------------------------------------------------
 
 if "melhor_grade" in st.session_state:
 
@@ -38,9 +32,7 @@ if "melhor_grade" in st.session_state:
     total_conflitos = conflitos(melhor_grade)
     resultado_fitness = fitness(melhor_grade)
 
-    # ------------------------------------------------
     # INDICADORES
-    # ------------------------------------------------
 
     col1, col2, col3 = st.columns(3)
 
@@ -52,9 +44,7 @@ if "melhor_grade" in st.session_state:
 
     st.divider()
 
-    # ------------------------------------------------
     # GRADE
-    # ------------------------------------------------
 
     st.subheader("📅 Grade de Horários")
 
@@ -81,9 +71,7 @@ if "melhor_grade" in st.session_state:
 
     st.dataframe(df, use_container_width=True, hide_index=True)
 
-    # ------------------------------------------------
     # EVOLUÇÃO
-    # ------------------------------------------------
 
     st.subheader("📈 Evolução do Algoritmo")
 
@@ -93,9 +81,7 @@ if "melhor_grade" in st.session_state:
 
     st.line_chart(grafico, x="Geração", y="Conflitos")
 
-    # ------------------------------------------------
     # RESULTADO
-    # ------------------------------------------------
 
     if total_conflitos == 0:
 
