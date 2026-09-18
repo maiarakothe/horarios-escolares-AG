@@ -37,7 +37,7 @@ correspondente ao gene.
 
 ## 3. População inicial
 
-São criados 100 indivíduos.
+São criados 50 indivíduos.
 
 Cada indivíduo recebe posições aleatórias entre os 30 horários disponíveis
 (5 dias × 6 horários).
