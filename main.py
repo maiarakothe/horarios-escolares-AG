@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from copy import deepcopy
 
 DIAS = ["Seg", "Ter", "Qua", "Qui", "Sex"]
-HORARIOS = ["08:00", "09:00", "10:00", "13:00", "14:00", "15:00"]
+HORARIOS = ["08:00", "09:00", "10:00", "11:00"]
 
 
 @dataclass(frozen=True)
@@ -19,80 +19,71 @@ class Aula:
 # (30 aulas para 30 slots disponíveis)
 AULAS = [
     Aula("1A", "Matemática", "Ana", "Sala 101"),
-    Aula("1A", "Matemática", "Ana", "Sala 101"),
-    Aula("1A", "Português", "Bruno", "Sala 102"),
-    Aula("1A", "Português", "Bruno", "Sala 102"),
-    Aula("1A", "História", "Carla", "Sala 103"),
-    Aula("1A", "Biologia", "Diego", "Lab 1"),
+    Aula("1A", "Português", "Bruno", "Sala 101"),
+    Aula("1A", "História", "Carla", "Sala 101"),
+    Aula("1A", "Biologia", "Diego", "101"),
     Aula("1A", "Geografia", "Helena", "Sala 101"),
-    Aula("1A", "Inglês", "Elisa", "Sala 102"),
-    Aula("1A", "Inglês", "Elisa", "Sala 102"),
-    Aula("1A", "Espanhol", "Fernanda", "Sala 103"),
-    Aula("1A", "Informática", "Carlos", "Sala 104"),
-    Aula("1A", "Educação Física", "Roberta", "Parque"),
-    Aula("1A", "Brincar", "Bruno", "Parque"),
+    Aula("1A", "Inglês", "Elisa", "Sala 101"),
+    Aula("1A", "Espanhol", "Fernanda", "Sala 101"),
+    Aula("1A", "Artes", "Noeli", "Sala 101"),
+    Aula("1A", "Filosofia", "Marcio", "Sala 101"),
+    Aula("1A", "Sociologia", "Mafalda", "Sala 101"),
+    Aula("1A", "Redação", "Relampago Marquinhos", "Sala 101"),
 
     Aula("1B", "Matemática", "Ana", "Sala 102"),
-    Aula("1B", "Matemática", "Ana", "Sala 102"),
-    Aula("1B", "Português", "Elisa", "Sala 101"),
-    Aula("1B", "Português", "Elisa", "Sala 101"),
-    Aula("1B", "História", "Carla", "Sala 104"),
-    Aula("1B", "Biologia", "Fabio", "Lab 1"),
+    Aula("1B", "Português", "Bruno", "Sala 102"),
+    Aula("1B", "História", "Carla", "Sala 102"),
+    Aula("1B", "Biologia", "Diego", "Sala 202"),
     Aula("1B", "Geografia", "Helena", "Sala 102"),
-    Aula("1B", "Inglês", "Bruno", "Sala 103"),
-    Aula("1B", "Inglês", "Bruno", "Sala 103"),
-    Aula("1B", "Espanhol", "Fernanda", "Sala 103"),
-    Aula("1B", "Informática", "Carlos", "Sala 103"),
-    Aula("1B", "Educação Física", "Roberta", "Parque"),
-    Aula("1B", "Brincar", "Elisa", "Parque"),
+    Aula("1B", "Inglês", "Elisa", "Sala 102"),
+    Aula("1B", "Espanhol", "Fernanda", "Sala 102"),
+    Aula("1B", "Artes", "Noeli", "Sala 102"),
+    Aula("1B", "Filosofia", "Marcio", "Sala 102"),
+    Aula("1B", "Sociologia", "Mafalda", "Sala 102"),
+    Aula("1B", "Redação", "Relampago Marquinhos", "Sala 102"),
 
-    Aula("2A", "Matemática", "Gustavo", "Sala 103"),
-    Aula("2A", "Matemática", "Gustavo", "Sala 103"),
-    Aula("2A", "Português", "Bruno", "Sala 104"),
-    Aula("2A", "Português", "Bruno", "Sala 104"),
-    Aula("2A", "História", "Helena", "Sala 101"),
-    Aula("2A", "Biologia", "Diego", "Lab 1"),
-    Aula("2A", "Geografia", "Carla", "Sala 103"),
-    Aula("2A", "Inglês", "Ana", "Sala 104"),
-    Aula("2A", "Inglês", "Ana", "Sala 104"),
-    Aula("2A", "Espanhol", "Fernanda", "Sala 101"),
-    Aula("2A", "Informática", "Carlos", "Sala 102"),
-    Aula("2A", "Educação Física", "Roberta", "Parque"),
-    Aula("2A", "Brincar", "Gustavo", "Parque"),
+    Aula("2A", "Matemática", "Ana", "Sala 103"),
+    Aula("2A", "Português", "Bruno", "Sala 103"),
+    Aula("2A", "História", "Carla", "Sala 103"),
+    Aula("2A", "Biologia", "Diego", "Sala 103"),
+    Aula("2A", "Geografia", "Helena", "Sala 103"),
+    Aula("2A", "Inglês", "Elisa", "Sala 103"),
+    Aula("2A", "Espanhol", "Fernanda", "Sala 103"),
+    Aula("2A", "Artes", "Noeli", "Sala 103"),
+    Aula("2A", "Filosofia", "Marcio", "Sala 103"),
+    Aula("2A", "Sociologia", "Mafalda", "Sala 103"),
+    Aula("2A", "Redação", "Relampago Marquinhos", "Sala 103"),
 
-    Aula("2B", "Matemática", "Gustavo", "Sala 104"),
-    Aula("2B", "Matemática", "Gustavo", "Sala 104"),
-    Aula("2B", "Português", "Elisa", "Sala 103"),
-    Aula("2B", "Português", "Elisa", "Sala 103"),
-    Aula("2B", "História", "Ana", "Sala 102"),
-    Aula("2B", "Biologia", "Fabio", "Lab 2"),
-    Aula("2B", "Geografia", "Bruno", "Sala 101"),
-    Aula("2B", "Inglês", "Carla", "Sala 102"),
-    Aula("2B", "Inglês", "Carla", "Sala 102"),
-    Aula("2B", "Espanhol", "Fernanda", "Sala 102"),
-    Aula("2B", "Informática", "Carlos", "Sala 101"),
-    Aula("2B", "Educação Física", "Roberta", "Parque"),
-    Aula("2B", "Brincar", "Ana", "Parque"),
+    Aula("2B", "Matemática", "Ana", "Sala 104"),
+    Aula("2B", "Português", "Bruno", "Sala 104"),
+    Aula("2B", "História", "Carla", "Sala 104"),
+    Aula("2B", "Biologia", "Diego", "104"),
+    Aula("2B", "Geografia", "Helena", "Sala 104"),
+    Aula("2B", "Inglês", "Elisa", "Sala 104"),
+    Aula("2B", "Espanhol", "Fernanda", "Sala 104"),
+    Aula("2B", "Artes", "Noeli", "Sala 104"),
+    Aula("2B", "Filosofia", "Marcio", "Sala 104"),
+    Aula("2B", "Sociologia", "Mafalda", "Sala 104"),
+    Aula("2B", "Redação", "Relampago Marquinhos", "Sala 104"),
 
-    Aula("3A", "Matemática", "Ana", "Sala 101"),
-    Aula("3A", "Matemática", "Ana", "Sala 101"),
-    Aula("3A", "Português", "Bruno", "Sala 102"),
-    Aula("3A", "Português", "Bruno", "Sala 102"),
-    Aula("3A", "História", "Diego", "Sala 103"),
-    Aula("3A", "Biologia", "Helena", "Lab 1"),
-    Aula("3A", "Geografia", "Fabio", "Sala 104"),
-    Aula("3A", "Inglês", "Gustavo", "Sala 101"),
-    Aula("3A", "Inglês", "Gustavo", "Sala 101"),
-    Aula("3A", "Espanhol", "Fernanda", "Sala 101"),
-    Aula("3A", "Informática", "Carlos", "Sala 102"),
-    Aula("3A", "Educação Física", "Roberta", "Parque"),
-    Aula("3A", "Brincar", "Roberta", "Parque")
+    Aula("3A", "Matemática", "Ana", "Sala 105"),
+    Aula("3A", "Português", "Bruno", "Sala 105"),
+    Aula("3A", "História", "Carla", "Sala 105"),
+    Aula("3A", "Biologia", "Diego", "Sala 105"),
+    Aula("3A", "Geografia", "Helena", "Sala 105"),
+    Aula("3A", "Inglês", "Elisa", "Sala 105"),
+    Aula("3A", "Espanhol", "Fernanda", "Sala 105"),
+    Aula("3A", "Artes", "Noeli", "Sala 105"),
+    Aula("3A", "Filosofia", "Marcio", "Sala 105"),
+    Aula("3A", "Sociologia", "Mafalda", "Sala 105"),
+    Aula("3A", "Redação", "Relampago Marquinhos", "Sala 105"),
+    
 ]
 
 SLOTS = [(dia, horario) for dia in range(len(DIAS)) for horario in range(len(HORARIOS))]
 
 POPULACAO = 50
-GERACOES = 500
+GERACOES = 100
 TAXA_CROSSOVER = 0.85
 TAXA_MUTACAO = 0.08
 TORNEIO = 3
@@ -120,14 +111,14 @@ def conflitos(individuo):
             aula_a = AULAS[i]
             aula_b = AULAS[j]
 
-            if aula_a.turma == aula_b.turma:
-                total += 1
+##            if aula_a.turma == aula_b.turma:
+##                total += 1
 
             if aula_a.professor == aula_b.professor:
                 total += 1
 
-            if aula_a.sala == aula_b.sala:
-                total += 1
+##            if aula_a.sala == aula_b.sala:
+##                total += 1
 
     return total
 
@@ -137,7 +128,7 @@ def fitness(individuo):
     Quanto menos conflitos, maior o fitness.
     A solução perfeita possui fitness 1.0.
     """
-    return 1 / (1 + conflitos(individuo))
+    return  conflitos(individuo)
 
 
 def selecao_torneio(populacao):
@@ -148,9 +139,6 @@ def selecao_torneio(populacao):
 
 def crossover(pai1, pai2):
     """Crossover de ponto único."""
-    if random.random() > TAXA_CROSSOVER:
-        return deepcopy(pai1), deepcopy(pai2)
-
     ponto = random.randint(1, len(AULAS) - 1)
 
     filho1 = pai1[:ponto] + pai2[ponto:]
@@ -174,8 +162,10 @@ def gerar_nova_populacao(populacao):
     nova = []
 
     # Elitismo: mantém a melhor solução da geração anterior.
-    melhor = max(populacao, key=fitness)
-    nova.append(deepcopy(melhor))
+    populacao.sort(key=fitness)
+    melhor = populacao[0]
+    ##nova.append(deepcopy(melhor))
+    nova=populacao[:10]
 
     while len(nova) < POPULACAO:
         pai1 = selecao_torneio(populacao)
@@ -224,20 +214,21 @@ def imprimir_grade(individuo):
 def executar():
     populacao = [criar_individuo() for _ in range(POPULACAO)]
 
-    melhor_global = max(populacao, key=fitness)
+    melhor_global = min(populacao, key=fitness)
     historico = []
     geracao_final = 0
 
     for geracao in range(1, GERACOES + 1):
+##        print(' '.join([f'{f}' for f in sorted([fitness(p) for p in populacao])]))
         populacao = gerar_nova_populacao(populacao)
 
-        melhor = max(populacao, key=fitness)
+        melhor = min(populacao, key=fitness)
         melhor_conflitos = conflitos(melhor)
 
         historico.append(melhor_conflitos)
         geracao_final = geracao
 
-        if fitness(melhor) > fitness(melhor_global):
+        if fitness(melhor) < fitness(melhor_global):
             melhor_global = deepcopy(melhor)
 
         if melhor_conflitos == 0:
