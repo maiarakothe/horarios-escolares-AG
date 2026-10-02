@@ -19,9 +19,13 @@ class Aula:
 # (30 aulas para 30 slots disponíveis)
 AULAS = [
     Aula("1A", "Matemática", "Ana", "Sala 101"),
+    Aula("1A", "Matemática", "Ana", "Sala 101"),
+    Aula("1A", "Português", "Bruno", "Sala 101"),
     Aula("1A", "Português", "Bruno", "Sala 101"),
     Aula("1A", "História", "Carla", "Sala 101"),
+    Aula("1A", "História", "Carla", "Sala 101"),
     Aula("1A", "Biologia", "Diego", "101"),
+    Aula("1A", "Geografia", "Helena", "Sala 101"),
     Aula("1A", "Geografia", "Helena", "Sala 101"),
     Aula("1A", "Inglês", "Elisa", "Sala 101"),
     Aula("1A", "Espanhol", "Fernanda", "Sala 101"),
@@ -31,9 +35,13 @@ AULAS = [
     Aula("1A", "Redação", "Relampago Marquinhos", "Sala 101"),
 
     Aula("1B", "Matemática", "Ana", "Sala 102"),
+    Aula("1B", "Matemática", "Ana", "Sala 102"),
+    Aula("1B", "Português", "Bruno", "Sala 102"),
     Aula("1B", "Português", "Bruno", "Sala 102"),
     Aula("1B", "História", "Carla", "Sala 102"),
+    Aula("1B", "História", "Carla", "Sala 102"),
     Aula("1B", "Biologia", "Diego", "Sala 202"),
+    Aula("1B", "Geografia", "Helena", "Sala 102"),
     Aula("1B", "Geografia", "Helena", "Sala 102"),
     Aula("1B", "Inglês", "Elisa", "Sala 102"),
     Aula("1B", "Espanhol", "Fernanda", "Sala 102"),
@@ -43,9 +51,13 @@ AULAS = [
     Aula("1B", "Redação", "Relampago Marquinhos", "Sala 102"),
 
     Aula("2A", "Matemática", "Ana", "Sala 103"),
+    Aula("2A", "Matemática", "Ana", "Sala 103"),
+    Aula("2A", "Português", "Bruno", "Sala 103"),
     Aula("2A", "Português", "Bruno", "Sala 103"),
     Aula("2A", "História", "Carla", "Sala 103"),
+    Aula("2A", "História", "Carla", "Sala 103"),
     Aula("2A", "Biologia", "Diego", "Sala 103"),
+    Aula("2A", "Geografia", "Helena", "Sala 103"),
     Aula("2A", "Geografia", "Helena", "Sala 103"),
     Aula("2A", "Inglês", "Elisa", "Sala 103"),
     Aula("2A", "Espanhol", "Fernanda", "Sala 103"),
@@ -55,9 +67,13 @@ AULAS = [
     Aula("2A", "Redação", "Relampago Marquinhos", "Sala 103"),
 
     Aula("2B", "Matemática", "Ana", "Sala 104"),
+    Aula("2B", "Matemática", "Ana", "Sala 104"),
+    Aula("2B", "Português", "Bruno", "Sala 104"),
     Aula("2B", "Português", "Bruno", "Sala 104"),
     Aula("2B", "História", "Carla", "Sala 104"),
-    Aula("2B", "Biologia", "Diego", "104"),
+    Aula("2B", "História", "Carla", "Sala 104"),
+    Aula("2B", "Biologia", "Diego", "Sala 104"),
+    Aula("2B", "Geografia", "Helena", "Sala 104"),
     Aula("2B", "Geografia", "Helena", "Sala 104"),
     Aula("2B", "Inglês", "Elisa", "Sala 104"),
     Aula("2B", "Espanhol", "Fernanda", "Sala 104"),
@@ -67,9 +83,13 @@ AULAS = [
     Aula("2B", "Redação", "Relampago Marquinhos", "Sala 104"),
 
     Aula("3A", "Matemática", "Ana", "Sala 105"),
+    Aula("3A", "Matemática", "Ana", "Sala 105"),
+    Aula("3A", "Português", "Bruno", "Sala 105"),
     Aula("3A", "Português", "Bruno", "Sala 105"),
     Aula("3A", "História", "Carla", "Sala 105"),
+    Aula("3A", "História", "Carla", "Sala 105"),
     Aula("3A", "Biologia", "Diego", "Sala 105"),
+    Aula("3A", "Geografia", "Helena", "Sala 105"),
     Aula("3A", "Geografia", "Helena", "Sala 105"),
     Aula("3A", "Inglês", "Elisa", "Sala 105"),
     Aula("3A", "Espanhol", "Fernanda", "Sala 105"),
@@ -83,7 +103,7 @@ AULAS = [
 SLOTS = [(dia, horario) for dia in range(len(DIAS)) for horario in range(len(HORARIOS))]
 
 POPULACAO = 50
-GERACOES = 100
+GERACOES = 500
 TAXA_CROSSOVER = 0.85
 TAXA_MUTACAO = 0.08
 TORNEIO = 3
@@ -99,7 +119,6 @@ def conflitos(individuo):
     Conflitos considerados:
     1. mesma turma no mesmo horário;
     2. mesmo professor no mesmo horário;
-    3. mesma sala no mesmo horário.
     """
     total = 0
 
@@ -111,14 +130,11 @@ def conflitos(individuo):
             aula_a = AULAS[i]
             aula_b = AULAS[j]
 
-##            if aula_a.turma == aula_b.turma:
-##                total += 1
+            if aula_a.turma == aula_b.turma:
+                total += 1
 
             if aula_a.professor == aula_b.professor:
                 total += 1
-
-##            if aula_a.sala == aula_b.sala:
-##                total += 1
 
     return total
 
@@ -128,7 +144,7 @@ def fitness(individuo):
     Quanto menos conflitos, maior o fitness.
     A solução perfeita possui fitness 1.0.
     """
-    return  conflitos(individuo)
+    return  1 / (1 + conflitos(individuo))
 
 
 def selecao_torneio(populacao):
@@ -162,9 +178,8 @@ def gerar_nova_populacao(populacao):
     nova = []
 
     # Elitismo: mantém a melhor solução da geração anterior.
-    populacao.sort(key=fitness)
+    populacao.sort(key=conflitos)
     melhor = populacao[0]
-    ##nova.append(deepcopy(melhor))
     nova=populacao[:10]
 
     while len(nova) < POPULACAO:
@@ -214,27 +229,28 @@ def imprimir_grade(individuo):
 def executar():
     populacao = [criar_individuo() for _ in range(POPULACAO)]
 
-    melhor_global = min(populacao, key=fitness)
+    melhor_global = min(populacao, key=conflitos)
     historico = []
+    geracao_fitness = []
     geracao_final = 0
 
     for geracao in range(1, GERACOES + 1):
-##        print(' '.join([f'{f}' for f in sorted([fitness(p) for p in populacao])]))
         populacao = gerar_nova_populacao(populacao)
 
-        melhor = min(populacao, key=fitness)
+        melhor = min(populacao, key=conflitos)
+        geracao_fitness.append(fitness(melhor))
         melhor_conflitos = conflitos(melhor)
 
         historico.append(melhor_conflitos)
         geracao_final = geracao
 
-        if fitness(melhor) < fitness(melhor_global):
+        if conflitos(melhor) < conflitos(melhor_global):
             melhor_global = deepcopy(melhor)
 
         if melhor_conflitos == 0:
             break
 
-    return melhor_global, historico, geracao_final
+    return melhor_global, historico, geracao_final, geracao_fitness
 
 
 if __name__ == "__main__":

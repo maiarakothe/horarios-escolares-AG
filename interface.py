@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 
+
 from main import executar, AULAS, DIAS, HORARIOS, conflitos, fitness
 
 st.set_page_config(page_title="Gerador de Horários", page_icon="📅", layout="wide")
@@ -15,11 +16,13 @@ if st.button("🚀 Gerar Grade", use_container_width=True):
 
     with st.spinner("Executando algoritmo genético..."):
 
-        melhor_grade, historico, geracao = executar()
+        melhor_grade, historico, geracao, geracao_fitness = executar()
 
     st.session_state["melhor_grade"] = melhor_grade
     st.session_state["historico"] = historico
     st.session_state["geracao"] = geracao
+    st.session_state["geracao_fitness"] = geracao_fitness
+    
 
 # MOSTRAR RESULTADO
 
@@ -28,6 +31,7 @@ if "melhor_grade" in st.session_state:
     melhor_grade = st.session_state["melhor_grade"]
     historico = st.session_state["historico"]
     geracao = st.session_state["geracao"]
+    geracao_fitness = st.session_state["geracao_fitness"]
 
     total_conflitos = conflitos(melhor_grade)
     resultado_fitness = fitness(melhor_grade)
@@ -67,20 +71,34 @@ if "melhor_grade" in st.session_state:
 
     df = pd.DataFrame(dados)
 
+    df["Dia"] = pd.Categorical(
+        df["Dia"],
+        categories=DIAS,
+        ordered=True
+    )
+
     df = df.sort_values(["Dia", "Horário", "Turma"])
 
     st.dataframe(df, use_container_width=True, hide_index=True)
 
     # EVOLUÇÃO
 
-    st.subheader("📈 Evolução do Algoritmo")
+    col1, col2 = st.columns(2)
 
-    grafico = pd.DataFrame(
-        {"Geração": range(1, len(historico) + 1), "Conflitos": historico}
-    )
+    with col1:
+        st.subheader("📉 Evolução dos Conflitos")
 
-    st.line_chart(grafico, x="Geração", y="Conflitos")
+        grafico_conflitos = pd.DataFrame({"Geração": range(1, len(historico) + 1), "Conflitos": historico})
 
+        st.line_chart(grafico_conflitos, x="Geração", y="Conflitos")
+
+    with col2:
+        st.subheader("📈 Evolução do Fitness")
+
+        grafico_fitness = pd.DataFrame({"Geração": range(1, len(geracao_fitness) + 1), "Fitness": geracao_fitness})
+
+        st.line_chart(grafico_fitness, x="Geração", y="Fitness")
+    
     # RESULTADO
 
     if total_conflitos == 0:
