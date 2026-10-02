@@ -16,6 +16,7 @@ class Aula:
 
 # Cada posição do cromossomo representa uma aula.
 # O gene guarda o dia e o horário em que aquela aula foi colocada.
+
 AULAS = [
     Aula("1A", "Matemática", "Ana", "Sala 101"),
     Aula("1A", "Matemática", "Ana", "Sala 101"),
@@ -97,6 +98,72 @@ AULAS = [
     Aula("5A", "Sociologia", "Mafalda", "Sala 104"),
     Aula("5A", "Redação", "Relampago Marquinhos", "Sala 104"),
 ]
+
+"""
+# Aulas com menos cromossomos:
+AULAS = [
+    Aula("1A", "Matemática", "Ana", "Sala 101"),
+    Aula("1A", "Português", "Bruno", "Sala 101"),
+    Aula("1A", "História", "Carla", "Sala 101"),
+    Aula("1A", "Biologia", "Diego", "101"),
+    Aula("1A", "Geografia", "Helena", "Sala 101"),
+    Aula("1A", "Inglês", "Elisa", "Sala 101"),
+    Aula("1A", "Espanhol", "Fernanda", "Sala 101"),
+    Aula("1A", "Artes", "Noeli", "Sala 101"),
+    Aula("1A", "Filosofia", "Marcio", "Sala 101"),
+    Aula("1A", "Sociologia", "Mafalda", "Sala 101"),
+    Aula("1A", "Redação", "Relampago Marquinhos", "Sala 101"),
+
+    Aula("2A", "Matemática", "Ana", "Sala 102"),
+    Aula("2A", "Português", "Bruno", "Sala 102"),
+    Aula("2A", "História", "Carla", "Sala 102"),
+    Aula("2A", "Biologia", "Diego", "Sala 202"),
+    Aula("2A", "Geografia", "Helena", "Sala 102"),
+    Aula("2A", "Inglês", "Elisa", "Sala 102"),
+    Aula("2A", "Espanhol", "Fernanda", "Sala 102"),
+    Aula("2A", "Artes", "Noeli", "Sala 102"),
+    Aula("2A", "Filosofia", "Marcio", "Sala 102"),
+    Aula("2A", "Sociologia", "Mafalda", "Sala 102"),
+    Aula("2A", "Redação", "Relampago Marquinhos", "Sala 102"),
+
+    Aula("3A", "Matemática", "Ana", "Sala 105"),
+    Aula("3A", "Português", "Bruno", "Sala 105"),
+    Aula("3A", "História", "Carla", "Sala 105"),
+    Aula("3A", "Biologia", "Diego", "Sala 105"),
+    Aula("3A", "Geografia", "Helena", "Sala 105"),
+    Aula("3A", "Inglês", "Elisa", "Sala 105"),
+    Aula("3A", "Espanhol", "Fernanda", "Sala 105"),
+    Aula("3A", "Artes", "Noeli", "Sala 105"),
+    Aula("3A", "Filosofia", "Marcio", "Sala 105"),
+    Aula("3A", "Sociologia", "Mafalda", "Sala 105"),
+    Aula("3A", "Redação", "Relampago Marquinhos", "Sala 105"),
+
+    Aula("4A", "Matemática", "Ana", "Sala 103"),
+    Aula("4A", "Português", "Bruno", "Sala 103"),
+    Aula("4A", "História", "Carla", "Sala 103"),
+    Aula("4A", "Biologia", "Diego", "Sala 103"),
+    Aula("4A", "Geografia", "Helena", "Sala 103"),
+    Aula("4A", "Inglês", "Elisa", "Sala 103"),
+    Aula("4A", "Espanhol", "Fernanda", "Sala 103"),
+    Aula("4A", "Artes", "Noeli", "Sala 103"),
+    Aula("4A", "Filosofia", "Marcio", "Sala 103"),
+    Aula("4A", "Sociologia", "Mafalda", "Sala 103"),
+    Aula("4A", "Redação", "Relampago Marquinhos", "Sala 103"),    
+
+    Aula("5A", "Matemática", "Ana", "Sala 104"),
+    Aula("5A", "Português", "Bruno", "Sala 104"),
+    Aula("5A", "História", "Carla", "Sala 104"),
+    Aula("5A", "Biologia", "Diego", "Sala 104"),
+    Aula("5A", "Geografia", "Helena", "Sala 104"),
+    Aula("5A", "Inglês", "Elisa", "Sala 104"),
+    Aula("5A", "Espanhol", "Fernanda", "Sala 104"),
+    Aula("5A", "Artes", "Noeli", "Sala 104"),
+    Aula("5A", "Filosofia", "Marcio", "Sala 104"),
+    Aula("5A", "Sociologia", "Mafalda", "Sala 104"),
+    Aula("5A", "Redação", "Relampago Marquinhos", "Sala 104"),    
+]
+
+"""
 
 SLOTS = [(dia, horario) for dia in range(len(DIAS)) for horario in range(len(HORARIOS))]
 
