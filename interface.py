@@ -2,7 +2,15 @@ import streamlit as st
 import pandas as pd
 
 
-from main import executar, AULAS, DIAS, HORARIOS, conflitos, fitness
+from main import (
+    executar,
+    AULAS,
+    DIAS,
+    HORARIOS,
+    conflitos,
+    detalhar_conflitos,
+    fitness,
+)
 
 st.set_page_config(page_title="Gerador de Horários", page_icon="📅", layout="wide")
 
@@ -12,7 +20,7 @@ st.write("Sistema de geração automática de horários utilizando " "Algoritmo 
 
 # BOTÃO
 
-if st.button("🚀 Gerar Grade", use_container_width=True):
+if st.button("🚀 Gerar Grade", width="stretch"):
 
     with st.spinner("Executando algoritmo genético..."):
 
@@ -22,7 +30,7 @@ if st.button("🚀 Gerar Grade", use_container_width=True):
     st.session_state["historico"] = historico
     st.session_state["geracao"] = geracao
     st.session_state["geracao_fitness"] = geracao_fitness
-    
+
 
 # MOSTRAR RESULTADO
 
@@ -53,10 +61,12 @@ if "melhor_grade" in st.session_state:
     st.subheader("📅 Grade de Horários")
 
     dados = []
+    detalhes_conflitos = detalhar_conflitos(melhor_grade)
 
     for i, aula in enumerate(AULAS):
 
         dia, horario = melhor_grade[i]
+        conflitos_aula = detalhes_conflitos[i]
 
         dados.append(
             {
@@ -66,20 +76,19 @@ if "melhor_grade" in st.session_state:
                 "Disciplina": aula.disciplina,
                 "Professor": aula.professor,
                 "Sala": aula.sala,
+                "Conflito": (
+                    f"⚠️ {', '.join(conflitos_aula)}" if conflitos_aula else "✅ Nenhum"
+                ),
             }
         )
 
     df = pd.DataFrame(dados)
 
-    df["Dia"] = pd.Categorical(
-        df["Dia"],
-        categories=DIAS,
-        ordered=True
-    )
+    df["Dia"] = pd.Categorical(df["Dia"], categories=DIAS, ordered=True)
 
     df = df.sort_values(["Dia", "Horário", "Turma"])
 
-    st.dataframe(df, use_container_width=True, hide_index=True)
+    st.dataframe(df, width="stretch", hide_index=True)
 
     # EVOLUÇÃO
 
@@ -88,17 +97,21 @@ if "melhor_grade" in st.session_state:
     with col1:
         st.subheader("📉 Evolução dos Conflitos")
 
-        grafico_conflitos = pd.DataFrame({"Geração": range(1, len(historico) + 1), "Conflitos": historico})
+        grafico_conflitos = pd.DataFrame(
+            {"Geração": range(1, len(historico) + 1), "Conflitos": historico}
+        )
 
         st.line_chart(grafico_conflitos, x="Geração", y="Conflitos")
 
     with col2:
         st.subheader("📈 Evolução do Fitness")
 
-        grafico_fitness = pd.DataFrame({"Geração": range(1, len(geracao_fitness) + 1), "Fitness": geracao_fitness})
+        grafico_fitness = pd.DataFrame(
+            {"Geração": range(1, len(geracao_fitness) + 1), "Fitness": geracao_fitness}
+        )
 
         st.line_chart(grafico_fitness, x="Geração", y="Fitness")
-    
+
     # RESULTADO
 
     if total_conflitos == 0:

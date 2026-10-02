@@ -16,7 +16,6 @@ class Aula:
 
 # Cada posição do cromossomo representa uma aula.
 # O gene guarda o dia e o horário em que aquela aula foi colocada.
-# (30 aulas para 30 slots disponíveis)
 AULAS = [
     Aula("1A", "Matemática", "Ana", "Sala 101"),
     Aula("1A", "Matemática", "Ana", "Sala 101"),
@@ -103,7 +102,7 @@ AULAS = [
 SLOTS = [(dia, horario) for dia in range(len(DIAS)) for horario in range(len(HORARIOS))]
 
 POPULACAO = 50
-GERACOES = 500
+GERACOES = 250
 TAXA_CROSSOVER = 0.85
 TAXA_MUTACAO = 0.08
 TORNEIO = 3
@@ -139,12 +138,35 @@ def conflitos(individuo):
     return total
 
 
+def detalhar_conflitos(individuo):
+    """Retorna os tipos de conflito encontrados em cada aula da grade."""
+    detalhes = [set() for _ in AULAS]
+
+    for i in range(len(AULAS)):
+        for j in range(i + 1, len(AULAS)):
+            if individuo[i] != individuo[j]:
+                continue
+
+            aula_a = AULAS[i]
+            aula_b = AULAS[j]
+
+            if aula_a.turma == aula_b.turma:
+                detalhes[i].add(f"Turma {aula_a.turma}")
+                detalhes[j].add(f"Turma {aula_b.turma}")
+
+            if aula_a.professor == aula_b.professor:
+                detalhes[i].add(f"Professor {aula_a.professor}")
+                detalhes[j].add(f"Professor {aula_b.professor}")
+
+    return [sorted(conflitos_aula) for conflitos_aula in detalhes]
+
+
 def fitness(individuo):
     """
     Quanto menos conflitos, maior o fitness.
     A solução perfeita possui fitness 1.0.
     """
-    return  1 / (1 + conflitos(individuo))
+    return 1 / (1 + conflitos(individuo))
 
 
 def selecao_torneio(populacao):
@@ -180,7 +202,7 @@ def gerar_nova_populacao(populacao):
     # Elitismo: mantém a melhor solução da geração anterior.
     populacao.sort(key=conflitos)
     melhor = populacao[0]
-    nova=populacao[:10]
+    nova = populacao[:10]
 
     while len(nova) < POPULACAO:
         pai1 = selecao_torneio(populacao)

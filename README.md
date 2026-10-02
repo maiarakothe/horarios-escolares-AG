@@ -1,124 +1,91 @@
+# Gerador de horários escolares
 
-# Algoritmo Genético - Horários Escolares
+Este projeto usa um algoritmo genético para montar uma grade semanal para as
+turmas cadastradas em `main.py`. A interface é feita com Streamlit e apresenta
+a grade, a quantidade de conflitos, o fitness e a evolução do algoritmo.
 
+## Como executar
 
-## 1. Problema
+Instale as dependências, caso ainda não estejam disponíveis:
 
-O objetivo é gerar uma grade de horários escolares alocando turmas, professores e salas em diferentes períodos, buscando eliminar conflitos.
-
-Os conflitos considerados são:
-
-- uma mesma turma em duas aulas no mesmo horário;
-- um mesmo professor em duas aulas no mesmo horário;
-- uma mesma sala ocupada por duas aulas no mesmo horário.
-
-O projeto foi modelado como um problema de otimização por Algoritmo Genético.
-
-## 2. Representação do indivíduo
-
-Um indivíduo representa uma grade completa.
-
-Cada gene representa uma aula e armazena:
-
-```text
-(dia, horário)
+```bash
+python -m pip install streamlit pandas
 ```
 
-Exemplo:
+Na pasta do projeto, inicie a interface:
 
-```text
-Gene 1 -> (Segunda, 08:00)
-Gene 2 -> (Quarta, 10:00)
-Gene 3 -> (Sexta, 14:00)
+```bash
+streamlit run interface.py
 ```
 
-As informações de turma, disciplina, professor e sala pertencem à aula
-correspondente ao gene.
+Clique em **Gerar Grade** para executar o algoritmo e exibir os resultados.
+Cada execução pode produzir uma grade diferente, pois a população inicial e
+as mutações são aleatórias.
 
-## 3. População inicial
+## Como a grade é representada
 
-São criados 50 indivíduos.
+Cada aula cadastrada é um gene do indivíduo. O gene guarda o dia e o horário
+da aula; turma, disciplina, professor e sala são os dados associados a esse
+gene.
 
-Cada indivíduo recebe posições aleatórias entre os 30 horários disponíveis
-(5 dias × 6 horários).
+Atualmente, o cadastro contém 5 turmas com 15 aulas cada (75 aulas no total).
+Há 5 dias (`Seg` a `Sex`) e 4 horários (`08:00`, `09:00`, `10:00` e `11:00`),
+ou seja, 20 opções de dia e horário para cada aula.
 
-## 4. Função de fitness
+## O que é considerado conflito
 
-O objetivo é minimizar o número de conflitos.
+Duas aulas entram em conflito quando estão no mesmo dia e horário e:
 
-A função utilizada é:
+- pertencem à mesma turma; ou
+- são ministradas pelo mesmo professor.
 
-```text
-fitness = 1 / (1 + conflitos)
-```
+Cada par de aulas em conflito é contado. Se o mesmo par compartilhar turma e
+professor, ele contribui com dois conflitos. A sala aparece na grade, mas a
+ocupação simultânea de uma sala **ainda não é verificada** pelo algoritmo.
 
-Quanto menor o número de conflitos, maior o fitness.
+Na tabela, a coluna **Conflito** identifica cada aula envolvida:
 
-Uma solução sem conflitos possui:
+- `⚠️ Turma 1A` indica outra aula da turma 1A no mesmo horário;
+- `⚠️ Professor Ana` indica outra aula do mesmo professor no mesmo horário;
+- os dois avisos podem aparecer juntos;
+- `✅ Nenhum` indica que aquela aula não está envolvida em conflito.
 
-```text
-fitness = 1.0
-```
+Uma aula pode aparecer marcada por causa de outra linha da tabela. Por isso,
+os avisos devem ser lidos por dia e horário, em conjunto.
 
-## 5. Seleção
+## Como o algoritmo busca uma solução
 
-Foi utilizada **seleção por torneio**.
+1. **População inicial:** cria 50 grades aleatórias.
+2. **Avaliação:** calcula os conflitos de cada grade e seu fitness:
 
-Três indivíduos são escolhidos aleatoriamente e aquele que possui maior
-fitness é selecionado para reprodução.
+   ```text
+   fitness = 1 / (1 + conflitos)
+   ```
 
-## 6. Crossover
+   Menos conflitos significam um fitness maior; uma grade sem conflitos tem
+   fitness `1.0`.
 
-Foi utilizado **crossover de ponto único**.
+3. **Seleção:** escolhe 3 indivíduos aleatórios e usa o de maior fitness como
+   pai.
+4. **Crossover:** combina dois pais em um ponto do cromossomo. Na versão atual,
+   o crossover é aplicado sempre; embora exista uma constante
+   `TAXA_CROSSOVER = 0.85`, ela ainda não é usada para controlar essa etapa.
+5. **Mutação:** cada aula tem 8% de chance de receber um novo dia e horário.
+6. **Elitismo:** mantém os 10 melhores indivíduos da população anterior na
+   seguinte.
 
-Um ponto aleatório divide os cromossomos dos pais e os filhos recebem
-partes de cada um.
+O algoritmo encerra após encontrar uma grade com zero conflitos ou completar
+250 gerações. Se não encontrar uma solução sem conflitos nesse limite, a
+interface mostra a melhor grade encontrada e avisa quantos conflitos restaram.
 
-Taxa utilizada:
+## Como ler os resultados
 
-```text
-85%
-```
+- **Conflitos:** total de conflitos da melhor grade encontrada. É uma contagem
+  por par de aulas e por regra violada, não necessariamente o número de linhas
+  marcadas.
+- **Fitness:** qualidade da melhor grade; quanto mais próximo de `1.0`, menos
+  conflitos ela tem.
+- **Geração:** quantidade de gerações executadas até o encerramento.
+- **Evolução dos Conflitos** e **Evolução do Fitness:** acompanham o melhor
+  indivíduo de cada geração registrada.
 
-## 7. Mutação
-
-Na mutação, cada gene possui uma pequena probabilidade de receber um novo
-horário aleatório.
-
-Taxa utilizada:
-
-```text
-8%
-```
-
-## 8. Elitismo
-
-O melhor indivíduo de cada geração é mantido na próxima geração.
-
-Isso evita que uma boa solução seja perdida durante o processo evolutivo.
-
-## 9. Critério de parada
-
-O algoritmo termina quando:
-
-1. encontra uma solução com zero conflitos; ou
-2. atinge 500 gerações.
-
-
-## Exemplo de interpretação
-
-No início, as grades são aleatórias e normalmente apresentam vários
-conflitos.
-
-Durante as gerações, indivíduos com menos conflitos tendem a ser
-selecionados para reprodução. O crossover e a mutação geram novas grades,
-e o fitness permite identificar quais são melhores.
-
-O objetivo final é chegar a:
-
-```text
-0 conflitos
-```
-
-Nesse caso, a grade encontrada atende às restrições consideradas pelo
-sistema.
